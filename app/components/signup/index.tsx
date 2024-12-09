@@ -2,8 +2,13 @@
 import React, { useState } from 'react';
 import { signup  } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation'
+import { SignupData, SignupResult } from '@/app/types/auth';
 
-const CreateAccountForm = () => {
+interface CreateAccountFormProps {
+  signup: (data: SignupData) => Promise<SignupResult>;
+}
+
+const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ signup }) => {
   const [loading, setLoading] = useState(false); 
 
   const router = useRouter()
