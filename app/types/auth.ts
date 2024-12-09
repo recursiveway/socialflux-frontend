@@ -14,20 +14,25 @@ export interface SignupData {
     lastName: string;
   }
   
-  export interface SignupResponseData {
+  export interface AuthResponseData {
     token: string;
     user: UserData;
   }
   
-  export interface SignupResponse {
+  export interface AuthResponse {
     status: 'success' | 'error';
     message: string;
-    data: SignupResponseData 
+    data: AuthResponseData 
   }
   
-  export interface SignupResult {
+  export interface AuthResult {
     success: boolean;
     message: string;
     user: UserData | null;
   }
   
+
+  export interface SignInCredentials {
+    email: string;
+    password: string;
+  }

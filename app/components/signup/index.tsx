@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { signup  } from '@/app/actions/auth';
 import { useRouter } from 'next/navigation'
-import { SignupData, SignupResult } from '@/app/types/auth';
+import { SignupData, AuthResult } from '@/app/types/auth';
 
 interface CreateAccountFormProps {
-  signup: (data: SignupData) => Promise<SignupResult>;
+  signup: (data: SignupData) => Promise<AuthResult>;
 }
 
 const CreateAccountForm: React.FC<CreateAccountFormProps> = ({ signup }) => {

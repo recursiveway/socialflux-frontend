@@ -1,15 +1,16 @@
 import CreateAccountForm from '@/app/components/signup'
 import React from 'react'
 import { cookies } from 'next/headers';
-import { SignupData,SignupResult,SignupResponse } from '@/app/types/auth';
+import { SignupData,AuthResult,AuthResponse } from '@/app/types/auth';
+import { redirect } from 'next/navigation';
 
 export const runtime = 'edge'
 
 
- const signup = async (data: SignupData): Promise<SignupResult> => {
+ const signup = async (data: SignupData): Promise<AuthResult> => {
   'use server'
   try {
-    const res = await fetch('https://api.socialflux.club/api/v1/auth/signup', {
+    const res = await fetch(`${process.env.API_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,7 +19,7 @@ export const runtime = 'edge'
       cache: 'no-store', 
     });
 
-    const response: SignupResponse = await res.json();
+    const response: AuthResponse = await res.json();
     if (response.status === 'success') {
       const cookieStore = cookies();
       cookieStore.set('authToken', response.data.token, { 
@@ -50,11 +51,20 @@ export const runtime = 'edge'
   }
 };
 
+async function checkAuth() {
+  const cookieStore = cookies();
+  const token = cookieStore.get('authToken');
+  
+  if (token) {
+    redirect('/');
+  }
+}
 
-const SigninPage = () => {
+
+export default async function SigninPage() {
+  await checkAuth();
   return (
     <CreateAccountForm signup={signup}/>
   )
 }
 
-export default SigninPage
